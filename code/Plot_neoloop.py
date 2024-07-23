@@ -7,7 +7,7 @@ from copy import copy
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 #-----------------
-# Plot neoloops and neotads on reconstructed HiChIP matrix (Figure 5d)
+# Plot neoloops and neoTADs on reconstructed HiChIP matrix (Figure 5d)
 #-----------------
 
 palette = copy(plt.get_cmap('Reds'))
@@ -21,7 +21,7 @@ with open('BRCA-8D1E6006-85CB-484A-8B5C-30766D90137B-X005-S02-B1-T1_H3K27ac_AA_a
     assemblies = [line.rstrip() for line in file]
     
 clr = cooler.Cooler('BRCA-8D1E6006-85CB-484A-8B5C-30766D90137B-X005-S02-B1-T1_H3K27ac_10000.allValidPairs.cool')
-assembly = [i for i in lines if 'Amplicon4_Cycle1_' in i][0]
+assembly = [i for i in assemblies if 'Amplicon4_Cycle1_' in i][0]
 vis = Triangle(clr, assembly, n_rows=6, figsize=(7,5), track_partition=[5, 0.3,0.4,0.6, 2, 0.5], correct='sweight')
 vis.matrix_plot(vmin=0, colormap = LinearSegmentedColormap.from_list("",color_list), vmax = 0.01)
 vis.plot_chromosome_bounds(linewidth=2)
