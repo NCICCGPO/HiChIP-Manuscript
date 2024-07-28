@@ -1,3 +1,23 @@
+"""
+HiChIP analysis - Augment NeoLoopFinder assemblies with BRASS SV with AmpliconArchitect assemblies
+Usage: python(3) assemble_aa_neoloop.py <Directory containing ALL cycle files (can use AC generated *_annotated_cycles_files)>
+		<NeoLoopFinder assemble-complexSVs output (*.assemblies.txt)>
+		<WGS sample name>
+		<Output filename (<HiChIP>_AA_assemblies_<WGS>.txt)>
+Note: need to run assemble_aa_neoloop.py for each WGS, HiChIP pair in hic2sample_all.txt
+Output: 
+	An *.assemblies.txt file compatible to the input format of neoloop-caller
+	Unlike NeoLoopFinder's encoding of simple (C*) and complex (A*) assemblies, the name of AA augmented assemblies 
+	include (i) WGS sample name; 
+		(ii) amplicon ID; 
+		(iii) cycle ID; 
+		(iv) classification of AA cycle; 
+		and (v) with the suffix of assembly number, in the following format:
+	<WGS sample>_<amplicon_id>_<cycle_id>_<classification, e.g. ecDNA/BFB/Linear><assembly number>
+
+	The encoding of the actual assemblies follows NeoLoopFinder format
+"""
+
 import os
 import sys
 from os import listdir
