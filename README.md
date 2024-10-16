@@ -15,7 +15,7 @@ This repository contains the analysis and plotting scripts for the HiChIP manusc
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/HiChIP-Manuscript.git
+git clone https://github.com/NCICCGPO/HiChIP-Manuscript.git
 cd HiChIP-Manuscript
 ```
 
