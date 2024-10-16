@@ -8,7 +8,6 @@
 #Sample specific decomposition
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 library(GenomicInteractions)
 library(GenomicRanges)
 library(InteractionSet)
@@ -32,13 +31,13 @@ peakDF2GRanges <- function(peak.df) {
 }
 
 #load patient specific loop annotation
-tmpinf1 =  "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Pan_working_fix/Patient_loops_gene_annotated_knownGene.Rda"
+tmpinf1 =  "Patient_loops_gene_annotated_knownGene.Rda"
 load(tmpinf1)
 sam = unique(final_final_tmp$ID)
 raw_final_final_tmp = final_final_tmp
 
 #load matched scATAC data
-mydir = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/"
+mydir = "/scATAC/Data/"
 files = list.files(mydir)
 tag = grep("immune_working",files)
 files = files[tag]
@@ -49,7 +48,7 @@ label = as.vector(label)
 sam = intersect(sam, label)
 
 #load patient specific 1d signal
-peak_folder = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/H3K27Ac_peaks/"
+peak_folder = "/TCGA/H3K27Ac_peaks/"
 peak_files = list.files(peak_folder)
 peak_nam = sapply(peak_files,function(x) paste0(strsplit(x,"-")[[1]][1],"-",strsplit(x,"-")[[1]][2],"-",strsplit(x,"-")[[1]][3],"-",strsplit(x,"-")[[1]][4],"-",strsplit(x,"-")[[1]][5]))
 peak_nam = as.vector(peak_nam)
@@ -188,7 +187,7 @@ for(i in 1 : length(sam))
 	data = data[,-tag_chose]
 	
 	#output result
-	myoutf = paste0("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/",sam[i],"_loops_annotation.txt")
+	myoutf = paste0("/Sample_loop_annotation_detail/",sam[i],"_loops_annotation.txt")
 	write.table(data,myoutf,sep="\t",quote=F)
 }
 
@@ -202,24 +201,23 @@ for(i in 1 : length(sam))
 #Pre-set of cell-type specific interactions
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 
-tmpinf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-14AD76EE-12F9-40B3-8DCD_loops_annotation.txt"
-tmpinf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-7C6A3AE4-E2EA-42B3-B3F1_loops_annotation.txt"
-tmpinf3 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-8D1E6006-85CB-484A-8B5C_loops_annotation.txt"
-tmpinf4 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-94AF19F0-1F2A-41EC-8CB6_loops_annotation.txt"
-tmpinf5 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-C147AAD5-A8F1-41D5-8709_loops_annotation.txt"
-tmpinf6 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/BRCA-C9C8D426-A3FD-4455-89A9_loops_annotation.txt"
-tmpinf7 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/COAD-0914606C-2CA1-4287-B530_loops_annotation.txt"
-tmpinf8 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/GBMx-09C0DCE7-D669-4D28-980D_loops_annotation.txt"
-tmpinf9 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/GBMx-6BEE2CB6-9AFD-42A6-9C26_loops_annotation.txt"
-tmpinf10 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/GBMx-ED12A6C9-D96E-49C4-B882_loops_annotation.txt"
-tmpinf11 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/KIRC-7D6A394E-01EC-4C58-A010_loops_annotation.txt"
-tmpinf12 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/LUAD-9B9C5C6D-1755-41CD-9BC1_loops_annotation.txt"
-tmpinf13 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/LUAD-A1ABC0B2-D7F8-45B5-B431_loops_annotation.txt"
-tmpinf14 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/LUAD-CA6F245B-30E0-48DE-AB15_loops_annotation.txt"
-tmpinf15 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/SKCM-211D9CF4-3348-4DCD-8A01_loops_annotation.txt"
-tmpinf16 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Sample_loop_annotation_detail/SKCM-FDA487D2-5293-4315-9212_loops_annotation.txt"
+tmpinf1 = "/Sample_loop_annotation_detail/BRCA-14AD76EE-12F9-40B3-8DCD_loops_annotation.txt"
+tmpinf2 = "/Sample_loop_annotation_detail/BRCA-7C6A3AE4-E2EA-42B3-B3F1_loops_annotation.txt"
+tmpinf3 = "/Sample_loop_annotation_detail/BRCA-8D1E6006-85CB-484A-8B5C_loops_annotation.txt"
+tmpinf4 = "/Sample_loop_annotation_detail/BRCA-94AF19F0-1F2A-41EC-8CB6_loops_annotation.txt"
+tmpinf5 = "/Sample_loop_annotation_detail/BRCA-C147AAD5-A8F1-41D5-8709_loops_annotation.txt"
+tmpinf6 = "/Sample_loop_annotation_detail/BRCA-C9C8D426-A3FD-4455-89A9_loops_annotation.txt"
+tmpinf7 = "/Sample_loop_annotation_detail/COAD-0914606C-2CA1-4287-B530_loops_annotation.txt"
+tmpinf8 = "/Sample_loop_annotation_detail/GBMx-09C0DCE7-D669-4D28-980D_loops_annotation.txt"
+tmpinf9 = "/Sample_loop_annotation_detail/GBMx-6BEE2CB6-9AFD-42A6-9C26_loops_annotation.txt"
+tmpinf10 = "/Sample_loop_annotation_detail/GBMx-ED12A6C9-D96E-49C4-B882_loops_annotation.txt"
+tmpinf11 = "/Sample_loop_annotation_detail/KIRC-7D6A394E-01EC-4C58-A010_loops_annotation.txt"
+tmpinf12 = "/Sample_loop_annotation_detail/LUAD-9B9C5C6D-1755-41CD-9BC1_loops_annotation.txt"
+tmpinf13 = "/Sample_loop_annotation_detail/LUAD-A1ABC0B2-D7F8-45B5-B431_loops_annotation.txt"
+tmpinf14 = "/Sample_loop_annotation_detail/LUAD-CA6F245B-30E0-48DE-AB15_loops_annotation.txt"
+tmpinf15 = "/Sample_loop_annotation_detail/SKCM-211D9CF4-3348-4DCD-8A01_loops_annotation.txt"
+tmpinf16 = "/Sample_loop_annotation_detail/SKCM-FDA487D2-5293-4315-9212_loops_annotation.txt"
 
 res1 = read.table(tmpinf1,sep="\t",quote=NULL)
 res2 = read.table(tmpinf2,sep="\t",quote=NULL)
@@ -539,13 +537,13 @@ C5_loop_final = unique(C5_loop_final)
 C6_loop_final = unique(C6_loop_final)
 Tumor_loop_final = unique(Tumor_loop_final)
 
-myoutf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C1_loop_final.Rda"
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C2_loop_final.Rda"
-myoutf3 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C3_loop_final.Rda"
-myoutf4 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C4_loop_final.Rda"
-myoutf5 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C5_loop_final.Rda"
-myoutf6 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C6_loop_final.Rda"
-myoutf7 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C7_loop_final.Rda"
+myoutf1 = "/Immune_loop_full/C1_loop_final.Rda"
+myoutf2 = "/Immune_loop_full/C2_loop_final.Rda"
+myoutf3 = "/Immune_loop_full/C3_loop_final.Rda"
+myoutf4 = "/Immune_loop_full/C4_loop_final.Rda"
+myoutf5 = "/Immune_loop_full/C5_loop_final.Rda"
+myoutf6 = "/Immune_loop_full/C6_loop_final.Rda"
+myoutf7 = "/Immune_loop_full/C7_loop_final.Rda"
 
 save(C1_loop_final,file=myoutf1)
 save(C2_loop_final,file=myoutf2)
@@ -564,7 +562,6 @@ save(Tumor_loop_final,file=myoutf7)
 #Map to union loopset
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 
 library(GenomicInteractions)
 library(GenomicRanges)
@@ -589,13 +586,13 @@ peakDF2GRanges <- function(peak.df) {
 }
 
 #load pre-set loops
-myoutf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C1_loop_final.Rda"
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C2_loop_final.Rda"
-myoutf3 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C3_loop_final.Rda"
-myoutf4 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C4_loop_final.Rda"
-myoutf5 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C5_loop_final.Rda"
-myoutf6 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C6_loop_final.Rda"
-myoutf7 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Immune_loop_full/C7_loop_final.Rda"
+myoutf1 = "/Immune_loop_full/C1_loop_final.Rda"
+myoutf2 = "/Immune_loop_full/C2_loop_final.Rda"
+myoutf3 = "/Immune_loop_full/C3_loop_final.Rda"
+myoutf4 = "/Immune_loop_full/C4_loop_final.Rda"
+myoutf5 = "/Immune_loop_full/C5_loop_final.Rda"
+myoutf6 = "/Immune_loop_full/C6_loop_final.Rda"
+myoutf7 = "/Immune_loop_full/C7_loop_final.Rda"
 
 load(myoutf1)
 load(myoutf2)
@@ -778,7 +775,7 @@ C7 = GenomicInteractions(anchor_1, anchor_2)
 ########################################
 #union interaction create
 ########################################
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Loop_immune_correlation_Spearman.txt"
+tmpinf = "/Loop_immune_correlation_Spearman.txt"
 data = read.table(tmpinf,sep="\t",quote=NULL)
 tag = is.na(data)
 data[tag]=0
@@ -817,7 +814,7 @@ tag1 = unique(op_1$subjectHits)
 C1_op = All[tag1]
 C1_op = as.data.frame(C1_op)
 C1_loop = paste0(C1_op$seqnames1,"_",C1_op$start1,"_",C1_op$end1,"_",C1_op$seqnames2,"_",C1_op$start2,"_",C1_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C1_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C1_Full.Rda"
 save(C1_loop,file=myoutf)
 
 op_2 = as.data.frame(op_2)
@@ -825,7 +822,7 @@ tag2 = unique(op_2$subjectHits)
 C2_op = All[tag2]
 C2_op = as.data.frame(C2_op)
 C2_loop = paste0(C2_op$seqnames1,"_",C2_op$start1,"_",C2_op$end1,"_",C2_op$seqnames2,"_",C2_op$start2,"_",C2_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C2_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C2_Full.Rda"
 save(C2_loop,file=myoutf)
 
 op_3 = as.data.frame(op_3)
@@ -833,7 +830,7 @@ tag3 = unique(op_3$subjectHits)
 C3_op = All[tag3]
 C3_op = as.data.frame(C3_op)
 C3_loop = paste0(C3_op$seqnames1,"_",C3_op$start1,"_",C3_op$end1,"_",C3_op$seqnames2,"_",C3_op$start2,"_",C3_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C3_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C3_Full.Rda"
 save(C3_loop,file=myoutf)
 
 op_4 = as.data.frame(op_4)
@@ -841,7 +838,7 @@ tag4 = unique(op_4$subjectHits)
 C4_op = All[tag4]
 C4_op = as.data.frame(C4_op)
 C4_loop = paste0(C4_op$seqnames1,"_",C4_op$start1,"_",C4_op$end1,"_",C4_op$seqnames2,"_",C4_op$start2,"_",C4_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C4_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C4_Full.Rda"
 save(C4_loop,file=myoutf)
 
 op_5 = as.data.frame(op_5)
@@ -849,7 +846,7 @@ tag5 = unique(op_5$subjectHits)
 C5_op = All[tag5]
 C5_op = as.data.frame(C5_op)
 C5_loop = paste0(C5_op$seqnames1,"_",C5_op$start1,"_",C5_op$end1,"_",C5_op$seqnames2,"_",C5_op$start2,"_",C5_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C5_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C5_Full.Rda"
 save(C5_loop,file=myoutf)
 
 op_6 = as.data.frame(op_6)
@@ -857,7 +854,7 @@ tag6 = unique(op_6$subjectHits)
 C7_op = All[tag6]
 C7_op = as.data.frame(C7_op)
 C7_loop = paste0(C7_op$seqnames1,"_",C7_op$start1,"_",C7_op$end1,"_",C7_op$seqnames2,"_",C7_op$start2,"_",C7_op$end2)
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C7_Full.Rda"
+myoutf = "/Specific_loop_General_Full/C7_Full.Rda"
 save(C7_loop,file=myoutf)
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -869,17 +866,16 @@ save(C7_loop,file=myoutf)
 #Step1 filter of cell-type specific union loop
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 
 ################################################
 #load the pre-set union cell-type specific loop
 ################################################
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C1_Full.Rda")
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C2_Full.Rda")
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C3_Full.Rda")
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C4_Full.Rda")
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C5_Full.Rda")
-load("/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Full/C7_Full.Rda")
+load("/Specific_loop_General_Full/C1_Full.Rda")
+load("/Specific_loop_General_Full/C2_Full.Rda")
+load("/Specific_loop_General_Full/C3_Full.Rda")
+load("/Specific_loop_General_Full/C4_Full.Rda")
+load("/Specific_loop_General_Full/C5_Full.Rda")
+load("/Specific_loop_General_Full/C7_Full.Rda")
 
 
 C1_loop = paste0(C1_op$seqnames1,"_",C1_op$start1,"_",C1_op$end1,"_",C1_op$seqnames2,"_",C1_op$start2,"_",C1_op$end2)
@@ -892,7 +888,7 @@ C7_loop = paste0(C7_op$seqnames1,"_",C7_op$start1,"_",C7_op$end1,"_",C7_op$seqna
 ################################################
 #load the correlation between union loop and actual cell fraction
 ################################################
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Loop_immune_correlation_Spearman.txt"
+tmpinf = "/Loop_immune_correlation_Spearman.txt"
 data = read.table(tmpinf,sep="\t",quote=NULL)
 tag = is.na(data)
 data[tag]=0
@@ -914,7 +910,7 @@ op = as.data.frame(op)
 C1_op = C1_All[unique(op$subjectHits)]
 C1_op = as.data.frame(C1_op)
 
-myoutf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C1_General_loop.Rda"
+myoutf1 = "/Specific_loop_General/C1_General_loop.Rda"
 save(C1_op,file=myoutf1)
 
 ################################################
@@ -927,7 +923,7 @@ op = as.data.frame(op)
 C2_op = C2_All[unique(op$subjectHits)]
 C2_op = as.data.frame(C2_op)
 
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C2_General_loop.Rda"
+myoutf2 = "/Specific_loop_General/C2_General_loop.Rda"
 save(C2_op,file=myoutf2)
 
 ################################################
@@ -940,7 +936,7 @@ op = as.data.frame(op)
 C3_op = C3_All[unique(op$subjectHits)]
 C3_op = as.data.frame(C3_op)
 
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C3_General_loop.Rda"
+myoutf2 = "/Specific_loop_General/C3_General_loop.Rda"
 save(C3_op,file=myoutf2)
 
 ################################################
@@ -953,7 +949,7 @@ op = as.data.frame(op)
 C4_op = C4_All[unique(op$subjectHits)]
 C4_op = as.data.frame(C4_op)
 
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C4_General_loop.Rda"
+myoutf2 = "/Specific_loop_General/C4_General_loop.Rda"
 save(C4_op,file=myoutf2)
 
 ################################################
@@ -969,7 +965,7 @@ op_C5 = as.data.frame(op_C5)
 C5_op = C5_All[unique(op$subjectHits)]
 C5_op = as.data.frame(C5_op)
 
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C5_General_loop.Rda"
+myoutf2 = "/Specific_loop_General/C5_General_loop.Rda"
 save(C5_op,file=myoutf2)
 
 ################################################
@@ -983,7 +979,7 @@ op = as.data.frame(op)
 C7_op = C7_All[unique(op$subjectHits)]
 C7_op = as.data.frame(C7_op)
 
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C7_General_loop.Rda"
+myoutf2 = "/Specific_loop_General/C7_General_loop.Rda"
 save(C7_op,file=myoutf2)
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -996,7 +992,6 @@ save(C7_op,file=myoutf2)
 #Step2 filter of cell-type specific union loop
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library",.libPaths()[2]))
 
 library(GenomicInteractions)
 library(GenomicRanges)
@@ -1008,12 +1003,12 @@ library(ArchR)
 #load the step1 filtered pre-set union cell-type specific loop
 ################################################
 
-myinf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C1_General_loop.Rda"
-myinf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C2_General_loop.Rda"
-myinf3 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C3_General_loop.Rda"
-myinf4 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C4_General_loop.Rda"
-myinf5 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C5_General_loop.Rda"
-myinf7 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General/C7_General_loop.Rda"
+myinf1 = "/Specific_loop_General/C1_General_loop.Rda"
+myinf2 = "/Specific_loop_General/C2_General_loop.Rda"
+myinf3 = "/Specific_loop_General/C3_General_loop.Rda"
+myinf4 = "/Specific_loop_General/C4_General_loop.Rda"
+myinf5 = "/Specific_loop_General/C5_General_loop.Rda"
+myinf7 = "/Specific_loop_General/C7_General_loop.Rda"
 
 load(myinf1)
 load(myinf2)
@@ -1033,7 +1028,7 @@ C7_loop = paste0(C7_op$seqnames1,"_",C7_op$start1,"_",C7_op$end1,"_",C7_op$seqna
 #load the correlation between union loop and RNA-seq estimated immune cell fraction
 ################################################
 
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Loop_infiltration_correlation.txt"
+tmpinf = "/Loop_infiltration_correlation.txt"
 info = read.table(tmpinf,sep="\t",quote=NULL)
 info = round(info,2)
 
@@ -1056,12 +1051,12 @@ C5_loop_final = C5_loop[tag5]
 C7_loop_final = C7_loop[tag7]
 
 #Final loopset output
-myoutf1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C1_General_loop.Rda"
-myoutf2 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C2_General_loop.Rda"
-myoutf3 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C3_General_loop.Rda"
-myoutf4 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C4_General_loop.Rda"
-myoutf5 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C5_General_loop.Rda"
-myoutf7 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/scATAC/Data/Specific_loop_General_Final/C7_General_loop.Rda"
+myoutf1 = "/Specific_loop_General_Final/C1_General_loop.Rda"
+myoutf2 = "/Specific_loop_General_Final/C2_General_loop.Rda"
+myoutf3 = "/Specific_loop_General_Final/C3_General_loop.Rda"
+myoutf4 = "/Specific_loop_General_Final/C4_General_loop.Rda"
+myoutf5 = "/Specific_loop_General_Final/C5_General_loop.Rda"
+myoutf7 = "/Specific_loop_General_Final/C7_General_loop.Rda"
 
 save(C1_loop_final,file = myoutf1)
 save(C2_loop_final,file = myoutf2)
