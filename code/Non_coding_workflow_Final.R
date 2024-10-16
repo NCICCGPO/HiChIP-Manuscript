@@ -8,15 +8,14 @@
 #Sample specific HiChIP pile up
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 
 #create the directory for bash job submission
-mydir = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Scripts/Non_coding_Rev/Global_VAF_calling_HiChIP/"
+mydir = "/Global_VAF_calling_HiChIP/"
 dir.create(mydir,recursive = TRUE)
 setwd(mydir)
 
 #load the hichip bam files
-mydir = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/HiC_Pro/merge_sortp_global_bam/"
+mydir = "/merge_sortp_global_bam/"
 folders = list.files(mydir)
 tag = grep(".bai",folders)
 folders = folders[-tag]
@@ -26,13 +25,13 @@ file_pt_name = sapply(file_name,function(x) paste0(strsplit(x,"-")[[1]][1],"-",s
 file_pt_name = as.vector(file_pt_name)
 
 #load sample information
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/Merged.FitHiChIP.interactions_Q0.1_MergeNearContacts_normcounts.txt"
+tmpinf = "/Merged.FitHiChIP.interactions_Q0.1_MergeNearContacts_normcounts.txt"
 data = read.table(tmpinf,sep="\t",quote=NULL,header=T)
 sam = colnames(data)
 sam = sam[8:length(sam)]
 
 #load sample annotation information
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/TCGA_sample_annotation.csv"
+tmpinf = "/TCGA_sample_annotation.csv"
 pt = read.csv(tmpinf,header=T)
 pt_id = pt$Library_Name
 pt_id = sapply(pt_id,function(x) paste0(strsplit(x,"_")[[1]][1],"_",strsplit(x,"_")[[1]][2]))
@@ -42,7 +41,7 @@ pt = pt[tag,]
 hichip_sample = unique(pt$submitter_id)
 
 #load somatic mutation information
-tmpinf = "/oak/stanford/groups/howchang/users/kdriest/TCGA/WGS/gdc_tcga_atac_jamboree_AWG_metadata.tsv"
+tmpinf = "/gdc_tcga_atac_jamboree_AWG_metadata.tsv"
 map = read.table(tmpinf,sep="\t",quote=NULL,header=T)
 tag = map$data_type == "raw simple somatic mutation"
 map = map[tag,]
@@ -109,12 +108,12 @@ for(i in 1 : length(sam))
 	input_file = paste0(mydir,input_file)
 	
 	TCGA_ID = sam[i]
-	mutation_input = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Revision/Paper_source/WGS_SNV_POS.txt"
+	mutation_input = "/WGS_SNV_POS.txt"
 	
-	output_file = paste0("/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Data/Non_coding_Rev/HiChIP_VAF_All/Global_HiChIP_pileup_BCF/",TCGA_ID,".bcf")
+	output_file = paste0("/Global_HiChIP_pileup_BCF/",TCGA_ID,".bcf")
 	
 	#use bcftools for pileup
-	curLine = paste0("bcftools mpileup -f /oak/stanford/groups/howchang/users/ydzhao/Resources/Genome/Hg38/GRCh38.primary_assembly.genome.fa ",input_file," -I -R",mutation_input," -Ob -o ",output_file)
+	curLine = paste0("bcftools mpileup -f /GRCh38.primary_assembly.genome.fa ",input_file," -I -R",mutation_input," -Ob -o ",output_file)
 	
 	writeLines(curLine, conOut)	
 	close(conOut)
@@ -131,15 +130,14 @@ for(i in 1 : length(sam))
 #Sample specific HiChIP vcf calling
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 
 #create the directory for bash job submission
-mydir = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Scripts/Non_coding_Rev/Global_VCF_calling_HiChIP/"
+mydir = "/Global_VCF_calling_HiChIP/"
 dir.create(mydir)
 setwd(mydir)
 
 #load the bcf files
-mydir = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Data/Non_coding_Rev/HiChIP_VAF_All/Global_HiChIP_pileup_BCF/"
+mydir = "/Global_HiChIP_pileup_BCF/"
 files = list.files(mydir)
 sam = gsub(".bcf","",files)
 
@@ -193,7 +191,7 @@ for(i in 1 : length(sam))
 	writeLines(curLine, conOut)
 	
 	
-	output_file = paste0("/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Data/Non_coding_Rev/HiChIP_VAF_All/Global_HiChIP_pileup_VCF/",sam[i],".vcf.gz")
+	output_file = paste0("/Global_HiChIP_pileup_VCF/",sam[i],".vcf.gz")
 	curLine = paste0("bcftools call -mO z -o ",output_file, " ", input_file)
 	
 	writeLines(curLine, conOut)	
@@ -211,17 +209,16 @@ for(i in 1 : length(sam))
 #Sample specific mutation summary
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rm(list=ls())
-.libPaths(c("/oak/stanford/groups/howchang/users/ydzhao/R_Library_4.2",.libPaths()[2]))
 library(vcfR)
 
 #load sample id
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/Merged.FitHiChIP.interactions_Q0.1_MergeNearContacts_normcounts.txt"
+tmpinf = "/Merged.FitHiChIP.interactions_Q0.1_MergeNearContacts_normcounts.txt"
 data = read.table(tmpinf,sep="\t",quote=NULL,header=T)
 sam = colnames(data)
 sam = sam[8:length(sam)]
 
 #load annotation file for hichip
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/TCGA_sample_annotation.csv"
+tmpinf = "/TCGA_sample_annotation.csv"
 pt = read.csv(tmpinf,header=T)
 pt_id = pt$Library_Name
 pt_id = sapply(pt_id,function(x) paste0(strsplit(x,"_")[[1]][1],"_",strsplit(x,"_")[[1]][2]))
@@ -230,7 +227,7 @@ pt = pt[tag,]
 pt = unique(pt$submitter_id)
 
 #load annotation file for wgs
-tmpinf = "/oak/stanford/groups/howchang/users/kdriest/TCGA/WGS/gdc_tcga_atac_jamboree_AWG_metadata.tsv"
+tmpinf = "/gdc_tcga_atac_jamboree_AWG_metadata.tsv"
 map = read.table(tmpinf,sep="\t",quote=NULL,header=T)
 tag = map$data_type == "raw simple somatic mutation"
 map = map[tag,]
@@ -241,15 +238,15 @@ map = map[tag,]
 xx = map$file_name
 sam = unique(map$case_submitter_id)
 
-tmpinf = "/oak/stanford/groups/howchang/users/ydzhao/Resources/Pub_Dat/TCGA/ATAC/Bam/gdc_sample_sheet.2022-07-19.tsv"
+tmpinf = "/gdc_sample_sheet.2022-07-19.tsv"
 info = read.table(tmpinf,sep="\t",quote=NULL,header=T)
 tag = which(info$Case.ID %in% sam)
 info = info[tag,]
 
 #load hichip vcf files
-mydir1 = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Data/Non_coding/HiChIP_VAF/Global_HiChIP_pileup_VCF/"
+mydir1 = "/Global_HiChIP_pileup_VCF/"
 #load snv fles
-mydir2 = "/oak/stanford/groups/howchang/users/kdriest/TCGA/WGS/all_snv/"
+mydir2 = "/all_snv/"
 
 files1 = list.files(mydir1)
 files2 = list.files(mydir2)
@@ -357,6 +354,6 @@ for(i in 1 : length(sam))
 
 final = unique(final)
 #output
-myoutf = "/oak/stanford/groups/howchang/users/ydzhao/Projects/HiChIP_decomposition/Data/Non_coding_Rev/Global_HiChIP_WGS_VAF_DP.Rda"
+myoutf = "/Global_HiChIP_WGS_VAF_DP.Rda"
 save(final,file=myoutf)
 
